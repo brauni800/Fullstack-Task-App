@@ -3,3 +3,7 @@ sqlalchemy
 alembic
 psycopg2
 python-dotenv
+pyjwt 
+passlib 
+bcrypt
+python-jose[cryptography]
