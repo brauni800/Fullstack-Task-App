@@ -3,14 +3,14 @@ import uuid
 from datetime import datetime
 
 
-# Esquema para crear un usuario
+# Schema to create a user
 class UserCreate(BaseModel):
     username: str
     email: EmailStr
     password: str
 
 
-# Esquema para responder datos de usuario (sin password)
+# Schema to respond user data (without password)
 class UserResponse(BaseModel):
     id: uuid.UUID
     username: str
