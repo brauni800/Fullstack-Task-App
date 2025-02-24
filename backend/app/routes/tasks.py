@@ -1,18 +1,37 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from app.database import get_db
+from app.database import get_db, get_paginated
 from app.models import Task
-from app.schemas import TaskCreate, TaskResponse, TaskUpdate
+from app.schemas import TaskCreate, TaskResponse, TaskUpdate, TaskQueryParams, PaginatedResponse
 from app.routes.users import get_current_user
+from app.constants import PRIORITIES
+from typing import Optional
 import uuid
 
 router = APIRouter()
 
+def get_query_params(
+    priority: Optional[int] = Query(None),
+    completed: Optional[str] = Query(None)
+) -> TaskQueryParams:
+    return TaskQueryParams(priority=priority, completed=completed)
 
 # Get all tasks for the authenticated user
-@router.get("/", response_model=list[TaskResponse])
-def get_tasks(db: Session = Depends(get_db), current_user=Depends(get_current_user)):
-    return db.query(Task).filter(Task.user_id == current_user.id).all()
+@router.get("/", response_model=PaginatedResponse[TaskResponse])
+def get_tasks(
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user),
+    filters: TaskQueryParams = Depends(get_query_params),
+    page: int = Query(1, ge=1, description="Page number"),
+    size: int = Query(10, ge=10, description="Page size")
+):
+    task_list = db.query(Task).filter(Task.user_id == current_user.id)
+    if filters.priority is not None:
+        task_list = task_list.filter(Task.priority == PRIORITIES[filters.priority])
+    if filters.completed is not None:
+        task_list = task_list.filter(Task.completed == (filters.completed.lower() == 'true'))
+
+    return get_paginated(task_list, Task, page, size)
 
 
 # Create a new task

@@ -92,7 +92,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
         .first()
     )
     if existing_user:
-        raise HTTPException(status_code=400, detail="User or email already exists")
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="User or email already exists")
 
     hashed_password = hash_password(user.password)
     new_user = User(
