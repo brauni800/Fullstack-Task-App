@@ -1,0 +1,20 @@
+.form {
+  .inputsContainer {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  
+    & > button[type="submit"] {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+    }
+  }
+}

@@ -1,0 +1,43 @@
+.pagination-container {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  gap: 0.5rem;
+  width: fit-content;
+  margin: 0 auto;
+
+  & li {
+    & > a {
+      transition: backdrop-filter 150ms ease-in;
+      padding: 1rem;
+      cursor: pointer;
+
+      &:hover {
+        backdrop-filter: brightness(0.8);
+      }
+    }
+
+    &:not(.previous):not(.next) > a {
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      width: 24px;
+      display: grid;
+      place-content: center;
+    }
+
+    &.previous > a, &.next > a {
+      border-radius: 1rem;
+    }
+
+    &.selected > a {
+      transition: filter 150ms ease-in;
+      background-color: #61AFFE;
+      color: #FFF;
+
+      &:hover {
+        filter: brightness(1.2);
+      }
+    }
+  }
+}

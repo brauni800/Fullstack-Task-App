@@ -1,0 +1,33 @@
+.container {
+  display: grid;
+  place-content: center;
+  min-height: 100dvh;
+
+  & header {
+    & h1 {
+      text-align: center;
+      margin-top: 0;
+    }
+  }
+
+  & form {
+    .inputsContainer {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    & footer {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    
+      & > button[type="submit"] {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+      }
+    }
+  }
+}

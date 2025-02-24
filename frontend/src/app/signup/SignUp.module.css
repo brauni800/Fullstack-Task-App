@@ -1,0 +1,12 @@
+.container {
+  display: grid;
+  place-content: center;
+  min-height: 100dvh;
+
+  .header {
+    & h1 {
+      text-align: center;
+      margin-top: 0;
+    }
+  }
+}

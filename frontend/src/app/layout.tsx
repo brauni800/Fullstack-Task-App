@@ -1,4 +1,8 @@
-import { AuthProvider } from "../context/AuthContext";
+import { ToastContainer } from "react-toastify"
+
+import { AuthProvider } from "@/context/AuthContext"
+import SWRProvider from "@/lib/plugins/SWRProvider"
+import './globals.css'
 
 export default function RootLayout({
   children,
@@ -8,7 +12,12 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <ToastContainer />
+        <SWRProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </SWRProvider>
       </body>
     </html>
   );

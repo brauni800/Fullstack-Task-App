@@ -14,4 +14,9 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+export const serverAPI = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  headers: { "Content-Type": "application/json" },
+})
+
 export default api;

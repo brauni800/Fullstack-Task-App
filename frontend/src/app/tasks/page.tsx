@@ -1,42 +1,25 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import api from "@/services/api";
-import { useAuth } from "@/context/AuthContext";
-
-interface Task {
-  id: string;
-  title: string;
-  completed: boolean;
-}
+import TaskPaginationSizeSelect from "./components/TaskPaginationSizeSelect"
+import TaskCompletedCheck from "./components/TaskCompletedCheck"
+import TaskPrioritySelect from "./components/TaskPrioritySelect"
+import LogoutButton from "@/components/LogoutButton"
+import TaskList from "./components/TaskList"
+import styles from "./Tasks.module.css"
 
 export default function Tasks() {
-  const auth = useAuth();
-  const [tasks, setTasks] = useState<Task[]>([]);
-
-  useEffect(() => {
-    async function fetchTasks() {
-      const response = await api.get("/tasks/", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
-      setTasks(response.data);
-    }
-    fetchTasks();
-  }, []);
-
   return (
-    <div>
-      <h2>My Tasks</h2>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            {task.title} - {task.completed ? "✅" : "❌"}
-          </li>
-        ))}
-      </ul>
-      <button onClick={auth?.logout}>Logout</button>
+    <div className={styles.container}>
+      <header>
+        <h1>My Tasks</h1>
+      </header>
+      <nav className={styles.filters}>
+        <TaskCompletedCheck />
+        <TaskPrioritySelect />
+        <TaskPaginationSizeSelect />
+      </nav>
+      <TaskList />
+      <footer>
+        <LogoutButton />
+      </footer>
     </div>
   );
 }
